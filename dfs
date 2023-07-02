@@ -1,0 +1,23 @@
+class Solution:
+    def eventualSafeNodes(self, adj: List[List[int]]) -> List[int]:
+        def dfs(vis,path,ans,i,adj):
+            vis[i]=1
+            path[i]=1
+            for val in adj[i]:
+                if vis[val]==0:
+                    if dfs(vis,path,ans,val,adj)==False:
+                        return False
+                elif path[val]==1:
+                    return False
+            path[i]=0
+            ans.append(i)
+            return True
+        v=len(adj)
+        vis=[0]*v
+        path=[0]*v
+        ans=[]
+        for i in range(v):
+            if vis[i]==0:
+                dfs(vis,path,ans,i,adj)
+        ans.sort()
+        return ans
