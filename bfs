@@ -1,0 +1,26 @@
+from collections import deque
+class Solution:
+    def eventualSafeNodes(self, adj: List[List[int]]) -> List[int]:
+        v=len(adj)
+        adjrev=[[]for i in range(v)]
+        for i in range(v):
+            for val in adj[i]:
+                adjrev[val].append(i)
+        indegree=[0]*v
+        for i in range(v):
+            for val in adjrev[i]:
+                indegree[val]+=1
+        q=deque()
+        for i in range(v):
+            if indegree[i]==0:
+                q.append(i)
+        ans=[]
+        while q:
+            node=q.popleft()
+            ans.append(node)
+            for val in adjrev[node]:
+                indegree[val]-=1
+                if indegree[val]==0:
+                    q.append(val)
+        ans.sort()
+        return ans
